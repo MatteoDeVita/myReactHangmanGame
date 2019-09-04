@@ -3,12 +3,16 @@ import PropTypes from 'prop-types'
 
 export default class Keyword extends Component {
 
-    getKeyword() {
+
+    generateAlphabetArray() {
         const alphabet = []
-        alphabet[0] = 'a'
-        for (let i = 1; i < 25; i++)
-            alphabet[i] = alphabet[i-1] + 1 
-            console.log(alphabet)
+        for (let i = 'A'.charCodeAt(0); i <= 'Z'.charCodeAt(0); i++)
+            alphabet.push(String.fromCharCode(i))
+        return alphabet
+    }
+
+    getKeyword() {
+        const alphabet = this.generateAlphabetArray()        
         return (
             <div>
                 {alphabet.map((letter) => (
