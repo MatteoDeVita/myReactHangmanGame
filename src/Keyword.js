@@ -9,12 +9,18 @@ const styles = {
     },
     keyboad: {
         // backgroundColor: 'rgba(100, 100, 100, 0.5)'
-        flexDirection: 'row'
+        flexDirection: 'row',
+        
     },
     key: {
         // backgroundColor: 'rga(103, 100, 100, 0.7)',
         backgroundColor: 'rgba(100, 100, 100, 0.85)',
-        color: 'white'
+        color: 'white',
+        display: 'inline-block',
+        randomColor: Math.random(),
+        '&:hover': {
+            color: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.9)`
+        }
     },
     keyboadLine2: {
         marginTop: '20'
@@ -34,27 +40,33 @@ class Keyword extends Component {
     }
 
     getKeyword() {
-        const keyworkLettersLine1 = "AZERTYUIOP".split('')
-        const keyworkLettersLine2 = "QSDFGHJKLM".split('')
-        const keyworkLettersLine3 = "WXCVBN".split('')
+        const keywordLettersLine1 = "AZERTYUIOP".split('')
+        const keywordLettersLine2 = "QSDFGHJKLM".split('')
+        const keywordLettersLine3 = "WXCVBN".split('')
         const { classes } = this.props
         return (
             <div className={classes.keyboad}>
-                <ButtonGroup size="large">
-                    {keyworkLettersLine1.map((letter) => (
-                       <Button className={classes.key} onClick={() => {console.log(letter)}} >{letter}</Button> 
-                    ))}
-                </ButtonGroup>
-                <ButtonGroup size="large" className={classes.keyboadLine2}>
-                    {keyworkLettersLine2.map((letter) => (
-                       <Button className={classes.key} onClick={() => {console.log(letter)}}>{letter}</Button> 
-                    ))}
-                </ButtonGroup>
-                <ButtonGroup size="large">
-                    {keyworkLettersLine3.map((letter) => (
-                       <Button className={classes.key} onClick={() => {console.log(letter)}}>{letter}</Button> 
-                    ))}
-                </ButtonGroup>
+                <div className={'buttonDivLine1'}>
+                    <ButtonGroup size="large">
+                        {keywordLettersLine1.map((letter) => (
+                        <Button className={classes.key} onClick={() => {console.log(letter)}} >{letter}</Button> 
+                        ))}
+                    </ButtonGroup>
+                </div>
+                <div className={'buttonDivLine2'}>
+                    <ButtonGroup size="large" className={classes.keyboadLine2}>
+                        {keywordLettersLine2.map((letter) => (
+                        <Button className={classes.key} onClick={() => {console.log(letter)}}>{letter}</Button> 
+                        ))}
+                    </ButtonGroup>
+                </div>
+                <div className={'buttonDivLine3'}>
+                    <ButtonGroup size="large">
+                        {keywordLettersLine3.map((letter) => (
+                        <Button className={classes.key} onClick={() => {console.log(letter)}}>{letter}</Button> 
+                        ))}
+                    </ButtonGroup>
+                </div>
                     
             </div>
         )
