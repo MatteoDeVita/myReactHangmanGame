@@ -1,14 +1,31 @@
-import React from 'react';
+import React, { Component } from 'react';
 import RandomWord from './RandomWord'
 import KeyWord from './Keyword'
 
-function App() {
-  return (
-    <div className="App">
-      <RandomWord/>
-      <KeyWord/>
-    </div>
-  );
-}
+export default class App extends Component {
 
-export default App;
+    constructor(props) {
+        super(props)
+        this.handleKeyboardOnClick = this.handleKeyboardOnClick.bind(this)
+    }
+
+    state = {
+        currentLetter: null
+    }
+
+    handleKeyboardOnClick(letter) {
+        this.setState({currentLetter: letter})
+        console.log(this.state)
+    }
+
+    render() {
+        return (
+            <div className="App">
+                <RandomWord/>
+                <KeyWord
+                    handleKeyboardOnClick={this.handleKeyboardOnClick}
+                />
+            </div>
+        )
+    }
+}

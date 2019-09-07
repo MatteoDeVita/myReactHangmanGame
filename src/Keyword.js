@@ -19,7 +19,10 @@ const styles = {
         display: 'inline-block',
         randomColor: Math.random(),
         '&:hover': {
-            color: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.9)`
+            color: `rgba(${Math.floor(Math.random() * 255)}, 
+                    ${Math.floor(Math.random() * 255)},
+                    ${Math.floor(Math.random() * 255)}, 
+                    0.9)`
         }
     },
     keyboadLine2: {
@@ -29,41 +32,53 @@ const styles = {
 class Keyword extends Component {
 
     static propTypes = {
-        classes: PropTypes.object.isRequired
-    }
-
-    generateAlphabetArray() {
-        const alphabet = []
-        for (let i = 'A'.charCodeAt(0); i <= 'Z'.charCodeAt(0); i++)
-            alphabet.push(String.fromCharCode(i))
-        return alphabet
+        classes: PropTypes.object.isRequired,
+        handleKeyboardOnClick: PropTypes.func.isRequired
     }
 
     getKeyword() {
         const keywordLettersLine1 = "AZERTYUIOP".split('')
         const keywordLettersLine2 = "QSDFGHJKLM".split('')
         const keywordLettersLine3 = "WXCVBN".split('')
-        const { classes } = this.props
+        const { classes, handleKeyboardOnClick } = this.props
         return (
             <div className={classes.keyboad}>
                 <div className={'buttonDivLine1'}>
                     <ButtonGroup size="large">
-                        {keywordLettersLine1.map((letter) => (
-                        <Button className={classes.key} onClick={() => {console.log(letter)}} >{letter}</Button> 
+                        {keywordLettersLine1.map(letter => (
+                        <Button
+                            key={letter}
+                            className={classes.key}
+                            onClick={() => {handleKeyboardOnClick(letter)}}
+                        >
+                        {letter}
+                        </Button> 
                         ))}
                     </ButtonGroup>
                 </div>
                 <div className={'buttonDivLine2'}>
                     <ButtonGroup size="large" className={classes.keyboadLine2}>
-                        {keywordLettersLine2.map((letter) => (
-                        <Button className={classes.key} onClick={() => {console.log(letter)}}>{letter}</Button> 
+                        {keywordLettersLine2.map(letter => (
+                        <Button
+                            key={letter}
+                            className={classes.key} 
+                            onClick={() => {handleKeyboardOnClick(letter)}}
+                        >
+                        {letter}
+                    </Button> 
                         ))}
                     </ButtonGroup>
                 </div>
                 <div className={'buttonDivLine3'}>
                     <ButtonGroup size="large">
-                        {keywordLettersLine3.map((letter) => (
-                        <Button className={classes.key} onClick={() => {console.log(letter)}}>{letter}</Button> 
+                        {keywordLettersLine3.map(letter => (
+                        <Button
+                            key={letter}
+                            className={classes.key} 
+                            onClick={() => {handleKeyboardOnClick(letter)}}
+                        >
+                    {letter}
+                    </Button> 
                         ))}
                     </ButtonGroup>
                 </div>
