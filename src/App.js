@@ -38,16 +38,16 @@ class App extends Component {
         const { discoveredWord, word } = this.state
         let newDiscoveredWord = discoveredWord
         letter = letter.toLowerCase()
-        console.log('2', newDiscoveredWord)
         if (word.includes(letter)) {
             newDiscoveredWord = word.split('').map((wordLetter, wordIndex) => {
-                if (discoveredWord[wordIndex] == '_' && wordLetter == letter) {
+                if (discoveredWord[wordIndex] === '_' && wordLetter === letter) {
                     return letter
                 }
-                return '_'
+                else if (discoveredWord[wordIndex] !=='_')
+                    return (discoveredWord[wordIndex])
+                return ('_')
             }).join('')
         }
-        console.log('2', newDiscoveredWord)
         this.setState({
             currentLetter: letter,
             discoveredWord: newDiscoveredWord
@@ -56,7 +56,7 @@ class App extends Component {
 
     render() {
         const { classes } = this.props
-        const { discoveredWord, word } = this.state
+        const { discoveredWord } = this.state
         return (
             <div className={classes.mainUserInterface}>
                 <RandomWord
