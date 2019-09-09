@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import randomWords from 'random-words'
+import { Typography, Box } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles';
 import { alphabet } from './constants'
 
@@ -8,34 +8,28 @@ const styles = {
     root: {
 
     },
+    word: {
+        textAlign: 'center',
+        marginBottom: '50px',
+    }
 }
 
 class RandomWord extends Component {
 
     static propTypes = {
         classes: PropTypes.object.isRequired,
-        lettersFound: PropTypes.arrayOf(alphabet).isRequired
-    }
-
-    state = {
-        word: randomWords(1).toString(),
-    }
-
-    componentDidMount() {
-        const { word } = this.state
-
-        this.state.discoveredWord = word.split('').map(() => '_').join('')
-        this.setState(this.state)
+        lettersFound: PropTypes.arrayOf(alphabet).isRequired,
+        discoveredWord: PropTypes.string.isRequired
     }
 
     render() {
-        const { word, discoveredWord } = this.state
-        console.log()
+        const { classes, discoveredWord } = this.props
         return (
-            <div>
-                {word}
-                {discoveredWord}
-            </div>
+            <Typography className={classes.word} variant="h2" >
+                <Box letterSpacing={10}>
+                    {discoveredWord}
+                </Box>
+            </Typography>
         )
     }
 }

@@ -1,27 +1,67 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import RandomWord from './RandomWord'
 import KeyWord from './Keyword'
+import randomWords from 'random-words'
+import { withStyles } from '@material-ui/styles';
 
-export default class App extends Component {
+
+const styles = {
+    root: {
+
+    },
+
+    mainUserInterface: {
+        display: 'inline-block',
+        marginLeft: '32%'
+    }
+}
+
+class App extends Component {
+
+    static propTypes = {
+        classes: PropTypes.object.isRequired
+    }
 
     constructor(props) {
         super(props)
         this.handleKeyboardOnClick = this.handleKeyboardOnClick.bind(this)
-    }
-
-    state = {
-        currentLetter: null
+        const word = randomWords(1).toString()
+        console.log("word : ", word) ///TODO : Remove this console.log
+        this.state = {
+            word: word,
+            discoveredWord: word.split('').map(() => '_').join('')
+        }
     }
 
     handleKeyboardOnClick(letter) {
-        this.setState({currentLetter: letter})
-        console.log(this.state)
+        const { discoveredWord, word } = this.state
+        let newDiscoveredWord = discoveredWord
+        letter = letter.toLowerCase()
+        console.log('2', newDiscoveredWord)
+        if (word.includes(letter)) {
+            newDiscoveredWord = word.split('').map((wordLetter, wordIndex) => {
+                if (discoveredWord[wordIndex] == '_' && wordLetter == letter) {
+                    return letter
+                }
+                return '_'
+            }).join('')
+        }
+        console.log('2', newDiscoveredWord)
+        this.setState({
+            currentLetter: letter,
+            discoveredWord: newDiscoveredWord
+        })
     }
 
     render() {
+        const { classes } = this.props
+        const { discoveredWord, word } = this.state
         return (
-            <div className="App">
-                <RandomWord/>
+            <div className={classes.mainUserInterface}>
+                <RandomWord
+                    discoveredWord={discoveredWord}
+                />
                 <KeyWord
                     handleKeyboardOnClick={this.handleKeyboardOnClick}
                 />
@@ -29,3 +69,5 @@ export default class App extends Component {
         )
     }
 }
+
+export default withStyles(styles)(App)
