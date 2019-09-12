@@ -4,7 +4,7 @@ import RandomWord from './RandomWord'
 import KeyWord from './Keyword'
 import randomWords from 'random-words'
 import { withStyles } from '@material-ui/styles';
-
+import { Button } from '@material-ui/core';
 
 const styles = {
     root: {
@@ -26,16 +26,30 @@ class App extends Component {
     constructor(props) {
         super(props)
         this.handleKeyboardOnClick = this.handleKeyboardOnClick.bind(this)
+        this.handleRetryButtonOnClick = this.handleRetryButtonOnClick.bind(this)
         const word = randomWords(1).toString()
         console.log("word : ", word) ///TODO : Remove this console.log
         this.state = {
             word: word,
-            discoveredWord: word.split('').map(() => '_').join('')
+            discoveredWord: word.split('').map(() => '_').join(''),
+            win: false
         }
     }
 
+    handleRetryButtonOnClick() {
+        const word = randomWords(1).toString()
+        this.setState(
+            {
+                word: word,
+                discoveredWord: word.split('').map(() => '_').join(''),
+                win: false
+            }
+        )
+        console.log("word : ", word) ///TODO : Remove this console.log
+    }
+
     handleKeyboardOnClick(letter) {
-        const { discoveredWord, word } = this.state
+        const { discoveredWord, word, win } = this.state
         let newDiscoveredWord = discoveredWord
         letter = letter.toLowerCase()
         if (word.includes(letter)) {
@@ -43,20 +57,27 @@ class App extends Component {
                 if (discoveredWord[wordIndex] === '_' && wordLetter === letter) {
                     return letter
                 }
-                else if (discoveredWord[wordIndex] !=='_')
+                else if (discoveredWord[wordIndex] !== '_')
                     return (discoveredWord[wordIndex])
                 return ('_')
             }).join('')
-        }
+        }        
         this.setState({
             currentLetter: letter,
-            discoveredWord: newDiscoveredWord
-        })
+            discoveredWord: newDiscoveredWord,
+            win: newDiscoveredWord === word
+        },
+        () => {
+            console.log("states", this.state)
+            console.log("newDiscoveredWord", newDiscoveredWord)
+            this.win = newDiscoveredWord === word            
+            console.log(this.win)
+        })        
     }
 
     render() {
         const { classes } = this.props
-        const { discoveredWord } = this.state
+        const { discoveredWord, win } = this.state
         return (
             <div className={classes.mainUserInterface}>
                 <RandomWord
@@ -65,6 +86,11 @@ class App extends Component {
                 <KeyWord
                     handleKeyboardOnClick={this.handleKeyboardOnClick}
                 />
+                {win && 
+                    <Button onClick={this.handleRetryButtonOnClick}>
+                        retry
+                    </Button>
+                }
             </div>
         )
     }
