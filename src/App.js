@@ -4,7 +4,7 @@ import RandomWord from './RandomWord'
 import KeyWord from './Keyword'
 import randomWords from 'random-words'
 import { withStyles } from '@material-ui/styles';
-import { Button } from '@material-ui/core';
+import RetrySection from './RetrySection'
 
 const styles = {
     root: {
@@ -68,10 +68,7 @@ class App extends Component {
             win: newDiscoveredWord === word
         },
         () => {
-            console.log("states", this.state)
-            console.log("newDiscoveredWord", newDiscoveredWord)
             this.win = newDiscoveredWord === word            
-            console.log(this.win)
         })        
     }
 
@@ -86,10 +83,10 @@ class App extends Component {
                 <KeyWord
                     handleKeyboardOnClick={this.handleKeyboardOnClick}
                 />
-                {win && 
-                    <Button onClick={this.handleRetryButtonOnClick}>
-                        retry
-                    </Button>
+                {win &&
+                    <RetrySection
+                    handleRetryButtonOnClick={this.handleRetryButtonOnClick}
+                    />
                 }
             </div>
         )
