@@ -33,7 +33,7 @@ class Keyword extends Component {
 
     static propTypes = {
         classes: PropTypes.object.isRequired,
-        handleKeyboardOnClick: PropTypes.func.isRequired
+        handleKeyboardOnClick: PropTypes.func.isRequired,
     }
 
     getKeyword() {

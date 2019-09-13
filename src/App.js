@@ -5,6 +5,7 @@ import KeyWord from './Keyword'
 import randomWords from 'random-words'
 import { withStyles } from '@material-ui/styles';
 import RetrySection from './RetrySection'
+import LiveCounter from './LiveCounter'
 
 const styles = {
     root: {
@@ -32,7 +33,9 @@ class App extends Component {
         this.state = {
             word: word,
             discoveredWord: word.split('').map(() => '_').join(''),
-            win: false
+            win: false,
+            lost: false,
+            lives: 15
         }
     }
 
@@ -42,14 +45,17 @@ class App extends Component {
             {
                 word: word,
                 discoveredWord: word.split('').map(() => '_').join(''),
-                win: false
+                win: false,
+                lost: false,
+                lives: 15
             }
         )
         console.log("word : ", word) ///TODO : Remove this console.log
     }
 
     handleKeyboardOnClick(letter) {
-        const { discoveredWord, word, win } = this.state
+        const { discoveredWord, word } = this.state
+        let { lives } = this.state
         let newDiscoveredWord = discoveredWord
         letter = letter.toLowerCase()
         if (word.includes(letter)) {
@@ -61,31 +67,41 @@ class App extends Component {
                     return (discoveredWord[wordIndex])
                 return ('_')
             }).join('')
-        }        
+        }
+        else {
+            lives--
+        }
         this.setState({
             currentLetter: letter,
             discoveredWord: newDiscoveredWord,
-            win: newDiscoveredWord === word
+            win: newDiscoveredWord === word,
+            lives,
+            lost: lives < 0
         },
         () => {
-            this.win = newDiscoveredWord === word            
-        })        
+            this.win = newDiscoveredWord === word
+        })
     }
 
     render() {
         const { classes } = this.props
-        const { discoveredWord, win } = this.state
+        const { discoveredWord, win, lost, lives, word } = this.state
         return (
             <div className={classes.mainUserInterface}>
+                <LiveCounter lives={lives}/>
                 <RandomWord
                     discoveredWord={discoveredWord}
-                />
-                <KeyWord
-                    handleKeyboardOnClick={this.handleKeyboardOnClick}
-                />
-                {win &&
+                />                
+                {(win || lost) ?
                     <RetrySection
-                    handleRetryButtonOnClick={this.handleRetryButtonOnClick}
+                        handleRetryButtonOnClick={this.handleRetryButtonOnClick}
+                        isGameWon={win}
+                        word={lost && word}
+                    />                    
+                    :
+                    <KeyWord
+                    handleKeyboardOnClick={this.handleKeyboardOnClick}
+                    discoveredWord={discoveredWord}
                     />
                 }
             </div>
